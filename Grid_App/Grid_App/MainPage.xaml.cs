@@ -13,9 +13,11 @@ namespace Grid_App
         Grid grid;
         BoxView box;
         Button btn;
+        Label lbl;
         public MainPage()
         {
             AbsoluteLayout absoluteLayout = new AbsoluteLayout();
+            lbl = new Label(){Text = " "};
             grid = new Grid();
             btn = new Button() {
                 Text = "Новая игра",
@@ -49,12 +51,20 @@ namespace Grid_App
 
         private void Btn_Clicked(object sender, EventArgs e)
         {
-            
+            box.Color = Color.White;
         }
 
         private void Tap_Tapped(object sender, EventArgs e)
         {
-            box.Color = Color.FromRgb(200, 50, 50);
+            switch (box.Color)
+              {
+                 case Color.White:
+                    box.Color = Color.FromRgb(200, 50, 50);
+                    break;
+                 default:
+                    lbl.Text = "Эта клетка уже занята";
+                    break;
+              }
         }
     }
 }
