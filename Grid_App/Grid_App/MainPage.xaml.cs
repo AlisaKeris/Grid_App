@@ -10,23 +10,26 @@ namespace Grid_App
 {
     public partial class MainPage : ContentPage
     {
+        Label lbl;
         Grid grid;
         BoxView box;
         Button btn;
-        Label lbl;
         public MainPage()
         {
             AbsoluteLayout absoluteLayout = new AbsoluteLayout();
-            lbl = new Label(){Text = " "};
+            lbl = new Label() { Text = " ", TextColor = Color.FromRgb(50, 200, 50) };
+            AbsoluteLayout.SetLayoutBounds(lbl, new Rectangle(50, 40, 50, 100));
             grid = new Grid();
-            btn = new Button() {
+            AbsoluteLayout.SetLayoutBounds(grid, new Rectangle(150, 40, 200, 200));
+            btn = new Button()
+            {
                 Text = "Новая игра",
                 TextColor = Color.White,
                 BorderWidth = 5,
                 FontSize = 20,
-                BackgroundColor = Color.Blue,
+                BackgroundColor = Color.FromRgb(50, 200, 50)
             };
-            
+            AbsoluteLayout.SetLayoutBounds(btn, new Rectangle(60, 300, 150, 50));
             for (int i = 0; i < 3; i++)
             {
                 grid.RowDefinitions.Add(new RowDefinition { Height = new GridLength(1, GridUnitType.Star) });
@@ -37,13 +40,16 @@ namespace Grid_App
             {
                 for (int j = 0; j < 3; j++)
                 {
-                    box= new BoxView { Color = Color.White };
+                    box = new BoxView { Color = Color.White };
                     grid.Children.Add(box, i, j);
-                    
+                    absoluteLayout.Children.Add(btn);
+                    absoluteLayout.Children.Add(grid);
+                    absoluteLayout.Children.Add(lbl);
                     var tap = new TapGestureRecognizer();
                     box.GestureRecognizers.Add(tap);
-                    tap.Tapped += Tap_Tapped;
+                    tap.Tapped += Tap_Tapped1;
                     btn.Clicked += Btn_Clicked;
+
                 }
             }
             Content = absoluteLayout;
@@ -51,20 +57,22 @@ namespace Grid_App
 
         private void Btn_Clicked(object sender, EventArgs e)
         {
-            box.Color = Color.White;
+            grid.Children.Clear();
         }
 
-        private void Tap_Tapped(object sender, EventArgs e)
+        private void Tap_Tapped1(object sender, EventArgs e)
         {
-            switch (box.Color)
-              {
-                 case Color.White:
-                    box.Color = Color.FromRgb(200, 50, 50);
-                    break;
-                 default:
-                    lbl.Text = "Эта клетка уже занята";
-                    break;
-              }
+            lbl.Text = " ";
+            BoxView box = sender as BoxView;
+            if (box.Color == Color.White)
+            {
+                box.Color = Color.FromRgb(200, 50, 50);
+
+            }
+            else
+            {
+                lbl.Text = "Эта клетка уже занята!";
+            }
         }
     }
 }
