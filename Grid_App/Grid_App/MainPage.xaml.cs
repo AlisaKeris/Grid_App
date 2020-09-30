@@ -10,18 +10,21 @@ namespace Grid_App
 {
     public partial class MainPage : ContentPage
     {
-        int player = 1; 
         Label lblk, lblp;
         Grid grid;
         BoxView box;
         Button btn;
         public MainPage()
         {
+            newgame();
+        }
+        public void newgame()
+        {
             AbsoluteLayout absoluteLayout = new AbsoluteLayout();
-            lblk = new Label() { Text = " ", TextColor = Color.FromRgb(0, 0, 0) };
-            AbsoluteLayout.SetLayoutBounds(lbl, new Rectangle(50, 60, 50, 100));
-            lblp = new Label() { Text = "Красный ходит первый", TextColor = Color.FromRgb(0, 0, 0) };
-            AbsoluteLayout.SetLayoutBounds(lbl, new Rectangle(50, 10, 50, 200));
+            lblk = new Label() { Text = " ", TextColor = Color.FromRgb(50, 200, 50) };
+            AbsoluteLayout.SetLayoutBounds(lblk, new Rectangle(50, 40, 50, 100));
+            lblp = new Label() { Text = " ", TextColor = Color.FromRgb(0, 0, 0) };
+            AbsoluteLayout.SetLayoutBounds(lblp, new Rectangle(50, 10, 50, 200));
             grid = new Grid();
             AbsoluteLayout.SetLayoutBounds(grid, new Rectangle(150, 40, 200, 200));
             btn = new Button()
@@ -47,32 +50,34 @@ namespace Grid_App
                     grid.Children.Add(box, i, j);
                     absoluteLayout.Children.Add(btn);
                     absoluteLayout.Children.Add(grid);
-                    absoluteLayout.Children.Add(lbl);
+                    absoluteLayout.Children.Add(lblk);
+                    absoluteLayout.Children.Add(lblp);
                     var tap = new TapGestureRecognizer();
                     box.GestureRecognizers.Add(tap);
-                    tap.Tapped += Tap_Tapped1;
-                    btn.Clicked += Btn_Clicked;
+                    tap.Tapped += Tap_Tapped;
+                    btn.Clicked += new EventHandler(Btn_Clicked1) ;
 
                 }
             }
             Content = absoluteLayout;
         }
 
-        private void Btn_Clicked(object sender, EventArgs e)
+        private void Btn_Clicked1(object sender, EventArgs e)
         {
-            grid.Children.Clear();
+            newgame();
         }
 
-        private void Tap_Tapped1(object sender, EventArgs e)
+        private void Tap_Tapped(object sender, EventArgs e)
         {
+            Random rnd = new Random();
+            int player = rnd.Next(0, 2);
             BoxView box = sender as BoxView;
-            if (box.Color == Color.FromRgb(255, 255, 255)) 
+            if (box.Color == Color.FromRgb(255, 255, 255))
             {
-
-               switch (player) 
+                switch (player)
                 {
                     case 1: //если ходит красный, меняется цвет ячейки, ход переходит к синиму и меняется значение переменной 
-                        box.Color = Color.FromRgb(255, 0, 0); 
+                        box.Color = Color.FromRgb(255, 0, 0);
                         player = 0;
                         lblp.Text = "Ходит синий";
                         break;
@@ -84,7 +89,7 @@ namespace Grid_App
                 }
 
             }
-            else //если ячейка не белая, значит она уже занята 
+            else
             {
                 lblk.Text = "Эта клетка уже занята!";
             }
