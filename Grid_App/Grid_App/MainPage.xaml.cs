@@ -1,7 +1,8 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using Xamarin.Forms;
@@ -10,6 +11,8 @@ namespace Grid_App
 {
     public partial class MainPage : ContentPage
     {
+        private int player;
+        private BoxView[,] box2= new BoxView[3,3];
         Label lblk, lblp;
         Grid grid;
         BoxView box;
@@ -70,7 +73,7 @@ namespace Grid_App
         private void Tap_Tapped(object sender, EventArgs e)
         {
             Random rnd = new Random();
-            int player = rnd.Next(0, 2);
+            player = rnd.Next(0, 2);
             BoxView box = sender as BoxView;
             if (box.Color == Color.FromRgb(255, 255, 255))
             {
@@ -92,6 +95,73 @@ namespace Grid_App
             else
             {
                 lblk.Text = "Эта клетка уже занята!";
+            }
+            checkwin();
+        }
+        private void checkwin()
+        {
+            if (box2[0,0].Color == box2[0,1].Color && box2[0,1].Color == box2[1, 2].Color)
+            {
+                if (box2[0,0].Color != Color.FromRgb(255, 255, 255)) {
+                    lblp.Text = "Вы победили!";
+                    return;
+                }
+            }
+            if (box2[1, 0].Color == box2[1, 1].Color && box2[1, 1].Color == box2[1, 2].Color)
+            {
+                if (box2[1, 0].Color != Color.FromRgb(255, 255, 255))
+                {
+                    lblp.Text = "Вы победили!";
+                }
+
+            }
+            if (box2[2, 0].Color == box2[2, 1].Color && box2[2, 1].Color == box2[2, 2].Color)
+            {
+                if (box2[2, 0].Color != Color.FromRgb(255, 255, 255))
+                {
+                    lblp.Text = "Вы победили!";
+                }
+
+            }
+            if (box2[0, 0].Color == box2[1, 0].Color && box2[1, 0].Color == box2[2, 0].Color)
+            {
+                if (box2[0, 0].Color != Color.FromRgb(255, 255, 255))
+                {
+                    lblp.Text = "Вы победили!";
+                }
+
+            }
+            if (box2[0, 1].Color == box2[1, 1].Color && box2[1, 1].Color == box2[2, 1].Color)
+            {
+                if (box2[0, 1].Color != Color.FromRgb(255, 255, 255))
+                {
+                    lblp.Text = "Вы победили!";
+                }
+
+            }
+            if (box2[0, 2].Color == box2[1, 2].Color && box2[1, 2].Color == box2[2, 2].Color)
+            {
+                if (box2[0, 2].Color != Color.FromRgb(255, 255, 255))
+                {
+                    lblp.Text = "Вы победили!";
+                }
+            }
+                
+            if (box2[0, 0].Color == box2[1, 1].Color && box2[1, 1].Color == box2[2, 2].Color)
+            {
+                if (box2[0, 0].Color != Color.FromRgb(255, 255, 255))
+                {
+                    lblp.Text = "Вы победили!";
+                }
+
+            }
+            if (box2[2, 2].Color == box2[1, 1].Color && box2[1, 1].Color == box2[0, 2].Color)
+            {
+                if (box2[2, 0].Color != Color.FromRgb(255, 255, 255))
+                {
+                    lblp.Text = "Вы победили!";
+                }
+
             }
         }
     }
