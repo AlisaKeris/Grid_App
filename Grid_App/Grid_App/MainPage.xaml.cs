@@ -23,13 +23,9 @@ namespace Grid_App
         }
         public void newgame()
         {
-            AbsoluteLayout absoluteLayout = new AbsoluteLayout();
             lblk = new Label() { Text = " ", TextColor = Color.FromRgb(50, 200, 50) };
-            AbsoluteLayout.SetLayoutBounds(lblk, new Rectangle(50, 40, 50, 100));
             lblp = new Label() { Text = " ", TextColor = Color.FromRgb(0, 0, 0) };
-            AbsoluteLayout.SetLayoutBounds(lblp, new Rectangle(50, 10, 50, 200));
             grid = new Grid();
-            AbsoluteLayout.SetLayoutBounds(grid, new Rectangle(150, 40, 200, 200));
             btn = new Button()
             {
                 Text = "Новая игра",
@@ -38,7 +34,7 @@ namespace Grid_App
                 FontSize = 20,
                 BackgroundColor = Color.FromRgb(50, 200, 50)
             };
-            AbsoluteLayout.SetLayoutBounds(btn, new Rectangle(60, 300, 150, 50));
+
             for (int i = 0; i < 3; i++)
             {
                 grid.RowDefinitions.Add(new RowDefinition { Height = new GridLength(1, GridUnitType.Star) });
@@ -47,22 +43,21 @@ namespace Grid_App
 
             for (int i = 0; i < 3; i++)
             {
-                for (int j = 0; j < 3; j++)
+                for (int j = 0; j < 4; j++)
                 {
                     box = new BoxView { Color = Color.FromRgb(255, 255, 255) };
                     grid.Children.Add(box, i, j);
-                    absoluteLayout.Children.Add(btn);
-                    absoluteLayout.Children.Add(grid);
-                    absoluteLayout.Children.Add(lblk);
-                    absoluteLayout.Children.Add(lblp);
                     var tap = new TapGestureRecognizer();
                     box.GestureRecognizers.Add(tap);
-                    tap.Tapped += Tap_Tapped;
+                    tap.Tapped += Tap_Tapped1;
                     btn.Clicked += new EventHandler(Btn_Clicked1) ;
+                    grid.Children.Add(btn, 4, 0);
+                    grid.Children.Add(lblk, 4, 1);
+                    grid.Children.Add(lblp, 4, 2);
 
                 }
             }
-            Content = absoluteLayout;
+            Content = grid;
         }
 
         private void Btn_Clicked1(object sender, EventArgs e)
